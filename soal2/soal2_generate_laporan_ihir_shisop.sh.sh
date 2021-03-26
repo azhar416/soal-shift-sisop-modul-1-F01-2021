@@ -14,7 +14,7 @@ awk 'BEGIN {FS="\t"} {
 }
 END{
     print "Transaksi terakhir dengan profit percentage terbesar yaitu ", transactionId, " dengan persentase ", maximumProfit, "%\n"
-    }' /Users/inez_amanda/sisop/p1/soal-shift-sisop-modul-1-F01-2021/soal2/Laporan-TokoShiSop.tsv >> result.txt
+    }' /Users/inez_amanda/sisop/p1/soal-shift-sisop-modul-1-F01-2021/soal2/Laporan-TokoShiSop.tsv >> hasil.txt
 
 # 2b
 awk 'BEGIN {FS="\t"} { 
@@ -27,7 +27,7 @@ awk 'BEGIN {FS="\t"} {
         {for(name in customer){
             print name
         }}
-    }' /Users/inez_amanda/sisop/p1/soal-shift-sisop-modul-1-F01-2021/soal2/Laporan-TokoShiSop.tsv >> result.txt
+    }' /Users/inez_amanda/sisop/p1/soal-shift-sisop-modul-1-F01-2021/soal2/Laporan-TokoShiSop.tsv >> hasil.txt
 
 # 2c
 awk -F"\t" 'BEGIN {} {
@@ -45,7 +45,7 @@ awk -F"\t" 'BEGIN {} {
         }
     }
         print "\nTipe segmen customer yang penjualannya paling sedikit adalah ", segmentType, " dengan ", transaction, " transaksi"
-    }' /Users/inez_amanda/sisop/p1/soal-shift-sisop-modul-1-F01-2021/soal2/Laporan-TokoShiSop.tsv >> result.txt
+    }' /Users/inez_amanda/sisop/p1/soal-shift-sisop-modul-1-F01-2021/soal2/Laporan-TokoShiSop.tsv >> hasil.txt
 
 # 2d
 awk 'BEGIN {FS="\t"} {
@@ -63,4 +63,4 @@ awk 'BEGIN {FS="\t"} {
         }
     }
         print "\nWilayah bagian (region) yang memiliki total keuntungan (profit) yang paling sedikit adalah  ", placeReg, " dengan total keuntungan", minProfit
-    }' /Users/inez_amanda/sisop/p1/soal-shift-sisop-modul-1-F01-2021/soal2/Laporan-TokoShiSop.tsv >> result.txt
+    }' /Users/inez_amanda/sisop/p1/soal-shift-sisop-modul-1-F01-2021/soal2/Laporan-TokoShiSop.tsv >> hasil.txt

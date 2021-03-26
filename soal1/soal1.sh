@@ -2,7 +2,7 @@
 IFS=
 
 # 1a
-# regex="(INFO |ERROR )(.*)((?=[\(])(.*))"
+regex="(INFO |ERROR )(.*)((?=[\(])(.*))"
 regex1="(?<=ERROR )(.*)(?=\ )"
 regex2="(?<=[(])(.*)(?=[)])"
 regex3="(?=[(])(.*)(?<=[)])"
@@ -12,15 +12,18 @@ input="syslog.log";
 # 1b
 error_msg=$(grep -oP "$regex1" "$input" | sort)
 # echo $error_msg
-# echo $error_msg | uniq -c | sort -nr
+echo ERROR_MESSAGE
+echo $error_msg | uniq -c | sort -nr
 
 # 1c
 error=$(grep -oP "ERROR.*" "$input")
 # echo $error
-# grep -oP "$regex2" <<< "$error" | sort | uniq
+echo ERROR
+grep -oP "$regex2" <<< "$error" | sort | uniq -c
 info=$(grep -oP "INFO.*" "$input")
 # echo $info
-# grep -oP "$regex2" <<< "$info" | sort | uniq -c
+echo INFO
+grep -oP "$regex2" <<< "$info" | sort | uniq -c
 
 # 1d
 printf "ERROR,COUNT\n" > "error_message.csv" 

@@ -9,18 +9,18 @@ export LC_ALL=C
 
 # Cost Price didapatkan dari pengurangan Sales dengan Profit. (Quantity diabaikan).
 
-awk 'BEGIN {FS="\t"} { 
+awk -v maximumProfit=0 'BEGIN {FS="\t"} { 
     profitPercentage=($21/($18-$21))*100 
     {
-        if (maximumProfit<=profitPercentage){
-            maximumProfit=profitPercentage
+        if (profitPercentage>=maximumProfit){
             transactionId=$1
+            maximumProfit=profitPercentage
         }
     }
 }
 END{
-    print "Transaksi terakhir dengan profit percentage terbesar yaitu ", transactionId, " dengan persentase ", maximumProfit, "%\n"
-    }' /Users/inez_amanda/sisop/p1/soal-shift-sisop-modul-1-F01-2021/soal2/Laporan-TokoShiSop.tsv >> hasil.txt
+    printf ("Transaksi terakhir dengan profit percentage terbesar yaitu %d dengan persentase %d%\n", transactionId, maximumProfit)
+    }' Laporan-TokoShiSop.tsv >> hasil.txt
 
 
 # 2b
@@ -32,11 +32,9 @@ awk 'BEGIN {FS="\t"} {
         }
     }
     END{
-        print "\nDaftar nama customer di Albuquerque pada tahun 2017 antara lain:\n"
-        {for(name in customer){
-            print name
-        }}
-    }' /Users/inez_amanda/sisop/p1/soal-shift-sisop-modul-1-F01-2021/soal2/Laporan-TokoShiSop.tsv >> hasil.txt
+        printf ("Daftar nama customer di Albuquerque pada tahun 2017 antara lain:\n")
+        for(name in customer) printf ("%s\n", name)
+    }' Laporan-TokoShiSop.tsv >> hasil.txt
 
 
 # 2c
@@ -49,15 +47,14 @@ awk 'BEGIN {FS="\t"} {
     }
     END{
         transaction=99999
-        {for (seg in segment){
+        for (seg in segment){
             if (transaction > segment[seg]){
                 transaction = segment[seg]
                 segmentType = seg
             }
         }
-    }
-        print "\nTipe segmen customer yang penjualannya paling sedikit adalah ", segmentType, " dengan ", transaction, " transaksi"
-    }' /Users/inez_amanda/sisop/p1/soal-shift-sisop-modul-1-F01-2021/soal2/Laporan-TokoShiSop.tsv >> hasil.txt
+        printf ("\nTipe segmen customer yang penjualannya paling sedikit adalah %s dengan %d transaksi\n", segmentType, transaction)
+    }' Laporan-TokoShiSop.tsv >> hasil.txt
 
 
 # 2d
@@ -70,12 +67,11 @@ awk 'BEGIN {FS="\t"} {
     }
     END{
         minProfit=99999
-        {for (reg in region){
+        for (reg in region){
             if (minProfit > region[reg]){
                 minProfit = region[reg]
                 placeReg = reg
             }
         }
-    }
-        print "\nWilayah bagian (region) yang memiliki total keuntungan (profit) yang paling sedikit adalah  ", placeReg, " dengan total keuntungan", minProfit
-    }' /Users/inez_amanda/sisop/p1/soal-shift-sisop-modul-1-F01-2021/soal2/Laporan-TokoShiSop.tsv >> hasil.txt
+        printf ("\nWilayah bagian (region) yang memiliki total keuntungan (profit) yang paling sedikit adalah  %s dengan total %.2f\n", placeReg, minProfit)
+    }' Laporan-TokoShiSop.tsv >> hasil.txt

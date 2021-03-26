@@ -25,9 +25,9 @@ j=1
 for file in *.jpg; do
     echo $file
     if [[ $j -lt 10 ]]; then
-      mv "$file" "Koleksi0$j.jpg"
+      mv "$file" "Koleksi_0$j.jpg"
     else 
-      mv "$file" "Koleksi$j.jpg"
+      mv "$file" "Koleksi_$j.jpg"
     fi
     j=$[$j+1]
 done

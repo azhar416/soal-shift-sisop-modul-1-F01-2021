@@ -11,10 +11,12 @@ Ryujin baru saja diterima sebagai IT support di perusahaan Bukapedia. Dia diberi
 untuk informasinya antara lain jenis log (ERROR/INFO), pesan log, dan username pada setiap baris lognya.
 Dalam kasus soal nomor 1 ini, kami menggunakan 4 pola regex
 
-<code>regex="(INFO |ERROR )(.*)((?=[\(])(.*))"
+```
+regex="(INFO |ERROR )(.*)((?=[\(])(.*))"
 regex1="(?<=ERROR )(.*)(?=\ )"
 regex2="(?<=[(])(.*)(?=[)])"
-regex3="(?=[(])(.*)(?<=[)])"</code>
+regex3="(?=[(])(.*)(?<=[)])"
+```
 
 dimana `regex` merupakan pola yang digunakan untuk mengambil jenis log, pesan log, dan username secara grouping. tetapi untuk kelanjutannya, regex ini tidak terpakai.
 Untuk `regex1`, ini digunakan untuk mengambil pesan log yang dimana jenis lognya hanya `ERROR`.
@@ -26,17 +28,19 @@ Untuk kasus ini, kami menggunakan `regex1` yang telah kami buat untuk menampilka
 `regex1="(?<=ERROR )(.*)(?=\ )"`
 sehingga
 
-<code># 1b
+```# 1b
 error_msg=$(grep -oP "$regex1" "$input" | sort)
 #echo $error_msg
-echo $error_msg | uniq -c | sort -nr<code\>
+echo $error_msg | uniq -c | sort -nr
+```
 
 `error_msg` berfungsi untuk menyimpan data setelah `grep` dilakukan dan akan menampilkan pesan log dari jenis log `ERROR` beserta jumlahnya.
 
 ### C. Ryujin juga harus menampilkan jumlah kemunculan log ERROR dan INFO untuk setiap user-nya.
 pada kasus ini, kami menggunakan regex tambahan yaitu `ERROR.*` dan `INFO.*` untuk memisahkan antara jenis log `ERROR` dan `INFO`. 
 
-<code> # 1c
+```
+# 1c
 error=$(grep -oP "ERROR.*" "$input")
 #echo $error
 echo ERROR
@@ -44,26 +48,30 @@ grep -oP "$regex2" <<< "$error" | sort | uniq -c
 info=$(grep -oP "INFO.*" "$input")
 #echo $info
 echo INFO
-grep -oP "$regex2" <<< "$info" | sort | uniq -c <code\>
+grep -oP "$regex2" <<< "$info" | sort | uniq -c
+```
 
 Semua data `ERROR` disimpan di variabel `error` baik itu jenis log, pesan log, dan username. Begitu juga untuk yang `INFO`, data - datanya disimpan pada variabel `info`. Dan di `grep` kembali untuk mengambil username dan kemudian di count untuk menampilkan jumlahnya.
 
 ### D. Semua informasi yang didapatkan pada poin D dituliskan ke dalam file error_message.csv dengan header Error,Count yang kemudian diikuti oleh daftar pesan error dan jumlah kemunculannya diurutkan berdasarkan jumlah kemunculan pesan error dari yang terbanyak.
 
-<code> # 1d
+```
+# 1d
 printf "ERROR,COUNT\n" > "error_message.csv" 
 grep -oP "$regex1" "$input" | sort | uniq -c | sort -nr | grep -oP "^ *[0-9]+ \K.*" | while read -r em; do
 count=$(grep "$em" <<< "$error_msg" | wc -l)
 #echo $em
 #echo $count
 printf "%s,%d\n" "$em" "$count" >> "error_message.csv"
-done <code\>
+done
+```
 
 Untuk pengerjaannya, pertama `$input` di `grep` dan dipilah datanya agar hanya log pesan dari `ERROR` dan di sorting berdasarkan jumlah keluar yg terbanyak. kemudian di `grep` lagi agar angka jumlah tadi tidak masuk. lalu di read, serta di bandingkan tiap line read tadi dengan `$error_msg` yg berisi seluruh pesan log dan dihitung banyaknya data error tersebut. `$em` merupakan string yg berisi pesan erornya dan `$count` merupakan integer dari jumlah pesan tersebut dan kemudian variabel tersebut di print dalam file `error_message.csv`.
 
 ### E. Semua informasi yang didapatkan pada poin c dituliskan ke dalam file user_statistic.csv dengan header Username,INFO,ERROR diurutkan berdasarkan username secara ascending.
 
-<code> # 1e
+```
+# 1e
 printf "Username,INFO,ERROR\n" > "user_statistic.csv"
 grep -oP "$regex3" <<< "$error" | sort | uniq | while read -r er; do
 user=$(grep -oP "(?<=[(])(.*)(?=[)])" <<< "$er")
@@ -74,7 +82,8 @@ n_info=$(grep "$er" <<< "$info" | wc -l)
 #echo $n_error
 #echo $n_info
 printf "%s,%d,%d\n" "$user" "$n_info" "$n_error" >> "user_statistic.csv"
-done <code\>
+done
+```
 
 untuk pengerjaannya, kami mengambil username dengan tanda `()` untuk di read. kemudian tiap user itu dibandingkan dengan `$error` untuk dihitung berapa kali `ERROR` dari user tersebut kemudian dimasukkan ke dalam variabel `$n_error` dan juga dibandingkan dengan `$info` untuk dihitung berapa kali `INFO` dari user tersebut kemudian dimasukkan ke dalam variabel `$n_info`. username yg di read tadi di `grep` kembali untuk menghilangkan tanda `()` dan dimasukkan ke dalam variabel `$user`. ketiga variabel tersebut di print ke dalam file `user_statistic.csv`.
 

@@ -3,9 +3,11 @@
 declare -A arr
 shopt -s globstar
 
-for i in {1..23}
+#loop
+for i in {1..10}
 do
-    wget -O Koleksi_$i https://loremflickr.com/320/240/kitten 
+    wget -O Koleksi_$i -a Foto.log https://loremflickr.com/320/240/kitten
+    echo "file Koleksi_$i sudah terdownload"
 done
 
 for file in **; do
@@ -13,6 +15,6 @@ for file in **; do
    
   read cksm _ < <(md5sum "$file")
   if ((arr[$cksm]++)); then 
-    echo "rm $file"
+    rm $file
   fi
 done

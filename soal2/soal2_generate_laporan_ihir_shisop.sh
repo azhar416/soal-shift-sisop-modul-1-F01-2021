@@ -28,7 +28,7 @@ END{
 
 awk 'BEGIN {FS="\t"} { 
         if ($10=="Albuquerque" && $2~"2017"){
-            customer[$7]+=1
+            customer[$7]=customer[$7]+1
         }
     }
     END{
@@ -42,9 +42,9 @@ awk 'BEGIN {FS="\t"} {
 # 2c
 # TokoShiSop berfokus tiga segment customer, antara lain: Home Office, Customer, dan Corporate. Clemong ingin meningkatkan penjualan pada segmen customer yang paling sedikit. Oleh karena itu, Clemong membutuhkan segment customer dan jumlah transaksinya yang paling sedikit.
 
-awk -F"\t" 'BEGIN {} {
+awk 'BEGIN {FS="\t"} {
         if(NR>1){
-            segment[$8]+=1
+            segment[$8]=segment[$8]+1
         }
     }
     END{

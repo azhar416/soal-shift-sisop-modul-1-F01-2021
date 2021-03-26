@@ -11,7 +11,7 @@ Ryujin baru saja diterima sebagai IT support di perusahaan Bukapedia. Dia diberi
 untuk informasinya antara lain jenis log (ERROR/INFO), pesan log, dan username pada setiap baris lognya.
 Dalam kasus soal nomor 1 ini, kami menggunakan 4 pola regex
 
-```
+```bash
 regex="(INFO |ERROR )(.*)((?=[\(])(.*))"
 regex1="(?<=ERROR )(.*)(?=\ )"
 regex2="(?<=[(])(.*)(?=[)])"
@@ -28,7 +28,8 @@ Untuk kasus ini, kami menggunakan `regex1` yang telah kami buat untuk menampilka
 `regex1="(?<=ERROR )(.*)(?=\ )"`
 sehingga
 
-```# 1b
+```bash
+# 1b
 error_msg=$(grep -oP "$regex1" "$input" | sort)
 #echo $error_msg
 echo $error_msg | uniq -c | sort -nr
@@ -39,7 +40,7 @@ echo $error_msg | uniq -c | sort -nr
 ### C. Ryujin juga harus menampilkan jumlah kemunculan log ERROR dan INFO untuk setiap user-nya.
 pada kasus ini, kami menggunakan regex tambahan yaitu `ERROR.*` dan `INFO.*` untuk memisahkan antara jenis log `ERROR` dan `INFO`. 
 
-```
+```bash
 # 1c
 error=$(grep -oP "ERROR.*" "$input")
 #echo $error
@@ -55,7 +56,7 @@ Semua data `ERROR` disimpan di variabel `error` baik itu jenis log, pesan log, d
 
 ### D. Semua informasi yang didapatkan pada poin D dituliskan ke dalam file error_message.csv dengan header Error,Count yang kemudian diikuti oleh daftar pesan error dan jumlah kemunculannya diurutkan berdasarkan jumlah kemunculan pesan error dari yang terbanyak.
 
-```
+```bash
 # 1d
 printf "ERROR,COUNT\n" > "error_message.csv" 
 grep -oP "$regex1" "$input" | sort | uniq -c | sort -nr | grep -oP "^ *[0-9]+ \K.*" | while read -r em; do
@@ -70,7 +71,7 @@ Untuk pengerjaannya, pertama `$input` di `grep` dan dipilah datanya agar hanya l
 
 ### E. Semua informasi yang didapatkan pada poin c dituliskan ke dalam file user_statistic.csv dengan header Username,INFO,ERROR diurutkan berdasarkan username secara ascending.
 
-```
+```bash
 # 1e
 printf "Username,INFO,ERROR\n" > "user_statistic.csv"
 grep -oP "$regex3" <<< "$error" | sort | uniq | while read -r er; do

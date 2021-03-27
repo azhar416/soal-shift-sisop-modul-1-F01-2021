@@ -15,9 +15,9 @@ awk -v maximumProfit=0 'BEGIN {FS="\t"} {
     }
 }
 END{
+<<<<<<< HEAD
     printf ("Transaksi terakhir dengan profit percentage terbesar yaitu %d dengan persentase %d%%\n", transactionId, maximumProfit)
 }' Laporan-TokoShiSop.tsv > hasil.txt
-
 
 # 2b
 # Mendapatkan daftar nama customer pada transaksi tahun 2017 di Albuquerque.

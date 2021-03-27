@@ -200,3 +200,59 @@ Iterasi setiap total keuntungan masing-masing region pada array ``regionProfit``
 ```
 Output soal 2a, 2b, 2c, dan 2d ditampilkan pada file **hasil.txt** dengan melakukan redirection untuk mengirim output ke file tersebut.
 ```Laporan-TokoShiSop.tsv >> hasil.txt```
+
+
+## Soal Nomor 3
+Kuuhaku adalah orang yang sangat suka mengoleksi foto-foto digital, namun Kuuhaku juga merupakan seorang yang pemalas sehingga ia tidak 
+ingin repot-repot mencari foto, selain itu ia juga seorang pemalu, sehingga ia tidak ingin ada orang yang melihat koleksinya tersebut, 
+sayangnya ia memiliki teman bernama Steven yang memiliki rasa kepo yang luar biasa. Kuuhaku pun memiliki ide agar Steven tidak bisa melihat 
+koleksinya, serta untuk mempermudah hidupnya, yaitu dengan meminta bantuan kalian. Idenya adalah :
+
+### A. Membuat script untuk mengunduh 23 gambar dari "https://loremflickr.com/320/240/kitten" serta menyimpan log-nya ke file "Foto.log". 
+Karena gambar yang diunduh acak, ada kemungkinan gambar yang sama terunduh lebih dari sekali, oleh karena itu kalian harus menghapus gambar 
+yang sama (tidak perlu mengunduh gambar lagi untuk menggantinya). Kemudian menyimpan gambar-gambar tersebut dengan nama "Koleksi_XX" dengan 
+nomor yang berurutan tanpa ada nomor yang hilang (contoh : Koleksi_01, Koleksi_02, ...)
+
+Pada kasus ini kami mendownload semua data dengan loop terlebih dahulu menggunakan `wget` lalu melakukan compare terhadap file yang telah terdownload.
+Pada kasus compare jika terjadi kesamaan fiel maka akan dilakukan `rm` untuk menghapus file duplicate tersebut.Untuk langkah terakhir yaitu dengan
+melakukan rename pada file.
+
+### B. Karena Kuuhaku malas untuk menjalankan script tersebut secara manual, ia juga meminta kalian untuk menjalankan script tersebut sehari
+sekali pada jam 8 malam untuk tanggal-tanggal tertentu setiap bulan, yaitu dari tanggal 1 tujuh hari sekali (1,8,...), serta dari tanggal 2 
+empat hari sekali(2,6,...). Supaya lebih rapi, gambar yang telah diunduh beserta log-nya, dipindahkan ke folder dengan nama tanggal unduhnya 
+dengan format "DD-MM-YYYY" (contoh : "13-03-2023").
+
+Pada kasus ini dibuat 2 file berupa `soal3b.sh` dan `cron2b.tab`. File `soal3b.sh` berisi bash dari `soal3a.sh`.File ini juga membuat directory dengan
+nama `filename=$(date +"%m-%d-%Y")` lalu seluruh data dengan nama `Koleksi_*` dan `Foto.log` di move `mv` pada directory tersebut.
+
+Pada file `cron3b.tab` berisi crontab format mengenai penjadwalan yang di inginkan. Pada kasus ini didapatkan `0 20 1-31/7,2-31/4 * * ` yang memiliki
+jadwal dari tanggal 1 tujuh hari sekali (1,8,...), serta dari tanggal 2 empat hari sekali(2,6,...).
+
+### C. Agar kuuhaku tidak bosan dengan gambar anak kucing, ia juga memintamu untuk mengunduh gambar kelinci dari "https://loremflickr.com/320/240/bunny". 
+Kuuhaku memintamu mengunduh gambar kucing dan kelinci secara bergantian (yang pertama bebas. contoh : tanggal 30 kucing > tanggal 31 kelinci > tanggal 1 
+kucing > ... ). Untuk membedakan folder yang berisi gambar kucing dan gambar kelinci, nama folder diberi awalan "Kucing_" atau "Kelinci_" 
+(contoh : "Kucing_13-03-2023").
+
+Pada kasus ini menggunakan kondisi `if-else` dimana menggunakan suatu variabel bernama:
+``` bash
+n_kucing=$(ls | grep -e "Kucing.*" | wc -l)
+n_kelinci=$(ls | grep -e "Kelinci.*" | wc -l)
+```
+Pada kasus `if-else` menggunakan `-eq` sebagai perbandingan jika data variabel kucing dengan kelinci sama maka akan dijalankan `bash` pada kucing terlebih dahulu.
+Pada akhir bash counter akan bertambah untuk melakukan perbandingan `if-else` selanjutnya. Jika berbeda maka akan dijalankan kondisi `else` yaitu `bash` pada kelinci.
+
+Untuk setiap kondisi `if-else` dilakukan proses bash yang sama dengan `soal3a.sh` dimana akan melakukan `wget` terlebih dahulu. Setelah itu, file yang telah di dapatkan
+akan di compare dan dihapus jika terdeteksi duplicate. Pada akhir program akan melakukan rename pada data yang didapat sesuai dengan tata nama file yang ditentukan.
+
+### D. Untuk mengamankan koleksi Foto dari Steven, Kuuhaku memintamu untuk membuat script yang akan memindahkan seluruh folder ke zip yang diberi nama 
+“Koleksi.zip” dan mengunci zip tersebut dengan password berupa tanggal saat ini dengan format "MMDDYYYY" (contoh : “03032003”).
+
+Pada kasus ini semua folder `./Kelinci_*` dan `Kucing_*` akan dimasukan pada zip. Setelah dibuat zip maka folder tersebut akan dihapus. 
+
+### E. Karena kuuhaku hanya bertemu Steven pada saat kuliah saja, yaitu setiap hari kecuali sabtu dan minggu, dari jam 7 pagi sampai 6 sore, ia memintamu
+untuk membuat koleksinya ter-zip saat kuliah saja, selain dari waktu yang disebutkan, ia ingin koleksinya ter-unzip dan tidak ada file zip sama sekali.
+
+Pada kasus ini `0 7 * * 1-5 cd /home/ricky/praktikum1/ && bash "soal3d.sh"`  mengimplementasikan bash pada soal3d.sh yang berisi membuat zip pada jam 7 pagi pada waktu yang
+sudah ditentukan
+Pada kasus `0 18 * * 1-5 cd /home/ricky/praktikum1/ && unzip -P $(date +"%m%d%Y") Koleksi.zip && rm "Koleksi.zip` berisi unzip pada file zip yang ada dengan password yang
+telah ditentukan, setelah itu menghapus zip tersebut.

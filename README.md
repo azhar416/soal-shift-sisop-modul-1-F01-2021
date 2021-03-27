@@ -87,4 +87,3 @@ done
 ```
 
 untuk pengerjaannya, kami mengambil username dengan tanda `()` untuk di read. kemudian tiap user itu dibandingkan dengan `$error` untuk dihitung berapa kali `ERROR` dari user tersebut kemudian dimasukkan ke dalam variabel `$n_error` dan juga dibandingkan dengan `$info` untuk dihitung berapa kali `INFO` dari user tersebut kemudian dimasukkan ke dalam variabel `$n_info`. username yg di read tadi di `grep` kembali untuk menghilangkan tanda `()` dan dimasukkan ke dalam variabel `$user`. ketiga variabel tersebut di print ke dalam file `user_statistic.csv`.
-

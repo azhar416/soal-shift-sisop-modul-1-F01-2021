@@ -237,7 +237,7 @@ for file1 in $files; do
     done
 done
 ```
-Pada kasus compare jika terjadi kesamaan fiel maka akan dilakukan `rm` untuk menghapus file duplicate tersebut.Untuk langkah terakhir yaitu dengan
+Pada kasus compare jika terjadi kesamaan file maka akan dilakukan `rm` untuk menghapus file duplicate tersebut.Untuk langkah terakhir yaitu dengan
 melakukan rename pada file.
 ```bash
 j=1

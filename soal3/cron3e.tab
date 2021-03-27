@@ -1,0 +1,10 @@
+#!/bin/bash
+
+#download 
+0 1 * * * /bin/sh "soal3c.sh"
+
+#zip
+0 7 * * 1-5 /bin/sh "soal3d.sh"
+
+#unzip
+0 18 * * 1-5 unzip -P $(date +"%m%d%Y") Koleksi.zip

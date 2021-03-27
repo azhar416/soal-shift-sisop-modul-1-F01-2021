@@ -15,7 +15,6 @@ awk -v maximumProfit=0 'BEGIN {FS="\t"} {
     }
 }
 END{
-<<<<<<< HEAD
     printf ("Transaksi terakhir dengan profit percentage terbesar yaitu %d dengan persentase %d%%\n", transactionId, maximumProfit)
 }' Laporan-TokoShiSop.tsv > hasil.txt
 
@@ -28,7 +27,7 @@ awk 'BEGIN {FS="\t"} {
         }
     }
 END{
-    printf ("\nDaftar nama customer di Albuquerque pada tahun 2017 antara lain:\n")
+    printf ("Daftar nama customer di Albuquerque pada tahun 2017 antara lain:\n")
     for(name in customer) printf ("%s\n", name)
 }' Laporan-TokoShiSop.tsv >> hasil.txt
 
@@ -56,13 +55,13 @@ END{
 
 awk -v minProfit=99999 'BEGIN {FS="\t"} {
         if(NR>1){
-            region[$13]=region[$13]+$21
+            regionProfit[$13]=regionProfit[$13]+$21
         }
     }
 END{
-    for (reg in region){
-        if (minProfit > region[reg]){
-            minProfit = region[reg]; placeReg = reg
+    for (reg in regionProfit){
+        if (minProfit > regionProfit[reg]){
+            minProfit = regionProfit[reg]; placeReg = reg
         }
     }
     printf ("\nWilayah bagian (region) yang memiliki total keuntungan (profit) yang paling sedikit adalah  %s dengan total %.2f\n", placeReg, minProfit)

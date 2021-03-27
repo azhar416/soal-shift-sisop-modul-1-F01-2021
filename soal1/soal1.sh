@@ -37,7 +37,7 @@ done
 # 1e
 printf "Username,INFO,ERROR\n" > "user_statistic.csv"
 grep -oP "$regex3" <<< "$error" | sort | uniq | while read -r er; do
-user=$(grep -oP "(?<=[(])(.*)(?=[)])" <<< "$er")
+user=$(grep -oP "$regex2" <<< "$er")
 n_error=$(grep "$er" <<< "$error" | wc -l)
 n_info=$(grep "$er" <<< "$info" | wc -l)
 # echo $er

@@ -213,9 +213,44 @@ Karena gambar yang diunduh acak, ada kemungkinan gambar yang sama terunduh lebih
 yang sama (tidak perlu mengunduh gambar lagi untuk menggantinya). Kemudian menyimpan gambar-gambar tersebut dengan nama "Koleksi_XX" dengan 
 nomor yang berurutan tanpa ada nomor yang hilang (contoh : Koleksi_01, Koleksi_02, ...)
 
-Pada kasus ini kami mendownload semua data dengan loop terlebih dahulu menggunakan `wget` lalu melakukan compare terhadap file yang telah terdownload.
+Pada kasus ini kami mendownload semua data dengan loop terlebih dahulu menggunakan `wget` 
+```bash
+i=1
+while [ $i -lt 24 ]
+do
+    wget -O "Kitten_$i.jpg" -a Foto.log https://loremflickr.com/320/240/kitten
+    i=$[$i+1]
+done
+```
+lalu melakukan compare terhadap file yang telah terdownload.
+```bash
+files="$( find -type f )"
+for file1 in $files; do
+    for file2 in $files; do
+        # echo "checking $file1 and $file2"
+        if [[ "$file1" != "$file2" && -e "$file1" && -e "$file2" ]]; then
+            if diff "$file1" "$file2" > /dev/null; then
+                echo "$file1 and $file2 are duplicates"
+                rm -v "$file2"
+            fi
+        fi
+    done
+done
+```
 Pada kasus compare jika terjadi kesamaan fiel maka akan dilakukan `rm` untuk menghapus file duplicate tersebut.Untuk langkah terakhir yaitu dengan
 melakukan rename pada file.
+```bash
+j=1
+for file in *.jpg; do
+    echo $file
+    if [[ $j -lt 10 ]]; then
+      mv "$file" "Koleksi_0$j.jpg"
+    else 
+      mv "$file" "Koleksi_$j.jpg"
+    fi
+    j=$[$j+1]
+done
+```
 
 ### B. Karena Kuuhaku malas untuk menjalankan script tersebut secara manual, ia juga meminta kalian untuk menjalankan script tersebut sehari
 sekali pada jam 8 malam untuk tanggal-tanggal tertentu setiap bulan, yaitu dari tanggal 1 tujuh hari sekali (1,8,...), serta dari tanggal 2 

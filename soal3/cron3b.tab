@@ -1,1 +1,1 @@
-0 20 1-31/7,2-31/4 * * bin/sh ./soal3b.sh
+0 20 1-31/7,2-31/4 * * cd /home/ricky/praktikum1/ && bash soal3b.sh

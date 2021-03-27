@@ -243,11 +243,56 @@ Pada akhir bash counter akan bertambah untuk melakukan perbandingan `if-else` se
 
 Untuk setiap kondisi `if-else` dilakukan proses bash yang sama dengan `soal3a.sh` dimana akan melakukan `wget` terlebih dahulu. Setelah itu, file yang telah di dapatkan
 akan di compare dan dihapus jika terdeteksi duplicate. Pada akhir program akan melakukan rename pada data yang didapat sesuai dengan tata nama file yang ditentukan.
+```bash
+i=1
+ while [ $i -lt 24 ]
+ do
+    wget -O "Kitten_$i.jpg" -a Foto.log https://loremflickr.com/320/240/kitten
+    i=$[$i+1]
+ done
+ 
+ files="$( find -type f )"
+ for file1 in $files; do
+    for file2 in $files; do
+        # echo "checking $file1 and $file2"
+        if [[ "$file1" != "$file2" && -e "$file1" && -e "$file2" ]]; then
+            if diff "$file1" "$file2" > /dev/null; then
+                echo "$file1 and $file2 are duplicates"
+                rm -v "$file2"
+            fi
+        fi
+    done
+ done
+ 
+ j=1
+ for file in *.jpg; do
+    echo $file
+    if [[ $j -lt 10 ]]; then
+      mv "$file" "Koleksi_0$j.jpg"
+    else 
+      mv "$file" "Koleksi_$j.jpg"
+    fi
+    j=$[$j+1]
+ done
+ 
+ filename=$(date +"%m-%d-%Y")
+ mkdir "Kucing_$filename"
+ mv ./Koleksi_* ./Foto.log "./Kucing_$filename/"
+ echo "Berhasil"
+ kucing=$[$kucing+1]
+ ```
 
 ### D. Untuk mengamankan koleksi Foto dari Steven, Kuuhaku memintamu untuk membuat script yang akan memindahkan seluruh folder ke zip yang diberi nama 
 “Koleksi.zip” dan mengunci zip tersebut dengan password berupa tanggal saat ini dengan format "MMDDYYYY" (contoh : “03032003”).
 
-Pada kasus ini semua folder `./Kelinci_*` dan `Kucing_*` akan dimasukan pada zip. Setelah dibuat zip maka folder tersebut akan dihapus. 
+```bash
+filename=$(date +"%m%d%Y")
+zip -r -P"$filename" Koleksi.zip ./Kucing_* ./Kelinci_*
+rm -r Kucing_* 
+rm -r Kelinci_* 
+ ```
+
+Pada kasus ini semua folder `Kelinci_*` dan `Kucing_*` akan dimasukan pada zip. Setelah dibuat zip maka folder tersebut akan dihapus. 
 
 ### E. Karena kuuhaku hanya bertemu Steven pada saat kuliah saja, yaitu setiap hari kecuali sabtu dan minggu, dari jam 7 pagi sampai 6 sore, ia memintamu
 untuk membuat koleksinya ter-zip saat kuliah saja, selain dari waktu yang disebutkan, ia ingin koleksinya ter-unzip dan tidak ada file zip sama sekali.

@@ -95,7 +95,7 @@ Tiap tahunnya, TokoShiSop mengadakan Rapat Kerja yang membahas bagaimana hasil p
 
 Pada soal ini akan dicari beberapa kesimpulan dari data penjualan yang berada pada ``Laporan-TokoShiSop.tsv``. Dalam script ``soal2_generate_laporan_ihi_shisop.sh`` terdapat pengerjaan soal *2a, 2b, 2c, dan 2d*. Hasil pengerjaan soal nomor 2 ini ditampilkan pada ``hasil.txt``.
 ```bash
-    awk '
+    awk ' '
 ```
 Untuk penyelesaian soal ini digunakan ``awk`` sehingga harus mengimport ``awk`` pada awal ``shell script``.
 ```bash
@@ -105,11 +105,11 @@ File ``Laporan-TokoShiSop.tsv`` berformat _**.tsv**_ sehingga file separator ata
 ```bash
     export LC_ALL=C
 ```
-Menggunakan ``LC_ALL=C`` agar bisa mengambil angka desimal yang dipisahkan oleh ``.`` dengna tepat
+Menggunakan ``LC_ALL=C`` agar bisa mengambil angka desimal yang dipisahkan oleh ``.`` dengan tepat
 ```bash
     awk -v maximumProfit=0
 ```
-Command berikut digunakan untuk membuat sebuah variabel bernama maximumProfit dan diinisialisasi. Variabel tersebut didefinisikan disini agar tidak mempengaruhi proses perintah yang dibuat untuk setiap baris (pada soal **2A**). Command tersebut digunakan pada soal **2A**, **2C**, dan **2D**.
+Command berikut digunakan untuk membuat sebuah variabel bernama maximumProfit dan diinisialisasi. Variabel tersebut didefinisikan disini agar tidak mempengaruhi proses perintah yang dibuat untuk setiap baris (hanya pada soal **2A**). Command tersebut digunakan pada soal **2A**, **2C**, dan **2D**.
 
 ### A. Mencari Row ID dengan profit percentage terbesar pada setiap transaksi (jika ada yang sama pilih Row ID terbesar)
 **Soal:** Steven ingin mengapresiasi kinerja karyawannya selama ini dengan mengetahui *Row ID* dan *Profit Percentage* terbesar (jika hasil profit percentage terbesar lebih dari 1, maka ambil Row ID yang paling besar). Karena kamu bingung, Clemong memberikan definisi dari profit percentage, yaitu:
@@ -140,7 +140,7 @@ Mencetak variabel *transactionID* dan *maximumProfit* sesuai format.
         customer[$7]=customer[$7]+1
     }
 ```
-Menggunakan *if (condition)* untuk memeriksa apakah customer melakukan transaksi pada tahun 2017 di Albuquerque. Pada setiap baris akan dilakukan pengecekan ``City`` (pada kolom 10) dan ``Order ID`` (pada kolom 2). Disini digunakan **$10=="Albuquerque"** untuk memeriksa customer yang melakukan transaksi di Albuquerque dari kolom ``City``. Lalu, digunakan **$2~"2017"** untuk mendapatkan string yang mengandung bilangan 2017 dari kolom ``Order ID``. Disini digunakan associative array dengan nama customer sebagai index dan jumlah kemunculan string (nama customer) sebagai value nya. Penggunaan array ini membantu karena secara otomatis tidak akan menampilkan nama customer yang sama. Nama customer ini akan disimpan di sebuah array *customer[$7]* dimana **$7** adalah kolom ``Customer Name``. Jika kondisi terpenuhi dalam  *if statement* maka baris tersebut akan dimasukkan ke array dengan index sesuai nama customer pada baris tersebut. 
+Menggunakan *if (condition)* untuk memeriksa apakah customer melakukan transaksi pada tahun 2017 di Albuquerque. Pada setiap baris akan dilakukan pengecekan ``City`` (pada kolom 10) dan ``Order ID`` (pada kolom 2). Disini digunakan **$10=="Albuquerque"** untuk memeriksa customer yang melakukan transaksi di Albuquerque dari kolom ``City``. Lalu, digunakan **$2~"2017"** untuk mendapatkan string yang mengandung bilangan 2017 dari kolom ``Order ID``. Disini digunakan associative array dengan nama customer sebagai index dan jumlah kemunculan nama customer sebagai value nya. Penggunaan array ini membantu karena secara otomatis tidak akan menampilkan nama customer yang sama. Nama customer ini akan disimpan di sebuah array *customer[$7]* dimana **$7** adalah kolom ``Customer Name``. Jika kondisi terpenuhi dalam  *if statement* maka baris tersebut akan dimasukkan ke array dengan index sesuai nama customer pada baris tersebut. 
 ```bash
     printf ("Daftar nama customer di Albuquerque pada tahun 2017 antara lain:\n")
     for(name in customer) printf ("%s\n", name)
@@ -155,7 +155,7 @@ Iterasi semua nilai pada array ``customer`` untuk menampilkan semua nama pada ar
         segment[$8]=segment[$8]+1
     }
 ```
-Baris pertama pada file Laporan-TokoShiSop.tsv adalah header maka digunakan ``NR>1`` agar pembacaan dimulai dari baris ke 2. Disini digunakan associative array dengan ``Segment`` (**$8**) sebagai index dan counter transaksi sebagai value nya.
+Baris pertama pada file Laporan-TokoShiSop.tsv adalah header maka digunakan ``NR>1`` agar pembacaan dimulai dari baris ke 2. Disini digunakan array dengan ``Segment`` (**$8**) sebagai index dan counter transaksi sebagai value nya.
 ```bash
     for (seg in segment){
         if (transaction > segment[seg]){
@@ -164,16 +164,18 @@ Baris pertama pada file Laporan-TokoShiSop.tsv adalah header maka digunakan ``NR
     }
     printf ("\nTipe segmen customer yang penjualannya paling sedikit adalah %s dengan %d transaksi\n", segmentType, transaction)
 ```
-Iterasi setiap element pada array ``segment`` untuk mencari   segment yang memiliki jumlah transaksi paling sedikit. Jika jumlah transaksi dari suatu segment lebih kecil dibandingkan transaksi yang disimpan saat ini maka jumlah transaksi (*segment[seg]*) dan index (*seg*) akan disimpan dalam variabel *transaction* dan *segmentType*. Setelah mendapatkan segment dengan jumlah transaksi paling sedikit akan dicetak sesuai format.
+Iterasi setiap element pada array ``segment`` untuk mencari segment yang memiliki jumlah transaksi paling sedikit. Jika jumlah transaksi dari suatu segment lebih kecil dibandingkan transaksi yang disimpan saat ini maka jumlah transaksi (*segment[seg]*) dan index (*seg*) akan disimpan dalam variabel *transaction* dan *segmentType*. Setelah mendapatkan segment dengan jumlah transaksi paling sedikit akan dicetak sesuai format.
 
 ### D. Mencari region dengan total keuntungan (profit) paling sedikit
 **Soal:** TokoShiSop membagi wilayah bagian (region) penjualan menjadi empat bagian, antara lain: **Central, East, South, dan West**. Manis ingin mencari wilayah bagian
 (region) yang memiliki **total keuntungan (profit) paling sedikit** dan **total keuntungan wilayah** tersebut.
 * Menghitung profit masing-masing region
 ```bash
-    regionProfit[$13]=regionProfit[$13]+$21
+    if(NR>1){
+            regionProfit[$13]=regionProfit[$13]+$21
+    }
 ```
-Disini digunakan associative array ``regionProfit`` dengan ``region`` (**$13**) sebagai index. Total keuntungan masing-masing region disimpan pada array ini. Akumulasi keuntungan masing-masing region itu dihitung menggunakan ``regionProfit[$13]=regionProfit[$13]+$21``
+Disini digunakan array ``regionProfit`` dengan ``region`` (**$13**) sebagai index. Total keuntungan masing-masing region disimpan pada array ini. Akumulasi keuntungan masing-masing region itu dihitung menggunakan ``regionProfit[$13]=regionProfit[$13]+$21``
 ```bash
     for (reg in regionProfit){
         if (minProfit > regionProfit[reg]){

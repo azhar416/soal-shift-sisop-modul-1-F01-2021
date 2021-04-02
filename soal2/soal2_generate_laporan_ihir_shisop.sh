@@ -27,7 +27,7 @@ awk 'BEGIN {FS="\t"} {
         }
     }
 END{
-    printf ("Daftar nama customer di Albuquerque pada tahun 2017 antara lain:\n")
+    printf ("\nDaftar nama customer di Albuquerque pada tahun 2017 antara lain:\n")
     for(name in customer) printf ("%s\n", name)
 }' Laporan-TokoShiSop.tsv >> hasil.txt
 

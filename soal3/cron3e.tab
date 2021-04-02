@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #zip
-0 7 * * 1-5 cd /home/ricky/praktikum1/ && bash "soal3d.sh"
+0 7 * * 1-5 cd /home/azhar416/soal-shift-sisop-modul-1-F01-2021/soal3 && bash "soal3d.sh"
 
 #unzip
-0 18 * * 1-5 cd /home/ricky/praktikum1/ && unzip -P $(date +"%m%d%Y") Koleksi.zip && rm "Koleksi.zip
+0 18 * * 1-5 cd /home/azhar416/soal-shift-sisop-modul-1-F01-2021/soal3/ && unzip -P $(date +"\%m\%d\%Y") "Koleksi.zip" && rm "Koleksi.zip"

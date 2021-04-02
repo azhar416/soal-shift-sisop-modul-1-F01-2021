@@ -7,6 +7,8 @@ regex1="(?<=ERROR )(.*)(?=\ )"
 regex2="(?<=[(])(.*)(?=[)])"
 regex3="(?=[(])(.*)(?<=[)])"
 input="syslog.log";
+echo nomor1a
+grep -oP "$regex" "$input"
 # str="Jan 31 00:16:25 ubuntu.local ticky: INFO Closed ticket [#1754] (noel)"
 
 # 1b

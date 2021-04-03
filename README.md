@@ -265,7 +265,6 @@ for file in *.jpg; do
     j=$[$j+1]
 done
 ```
-![soal3a](\Foto\bash\soal3a.png)
 
 Pada kasus ini kami mendownload semua data dengan loop terlebih dahulu menggunakan `wget` lalu melakukan compare terhadap file yang telah terdownload.
 Pada kasus compare jika terjadi kesamaan fiel maka akan dilakukan `rm` untuk menghapus file duplicate tersebut.Untuk langkah terakhir yaitu dengan
@@ -287,16 +286,12 @@ mv ./Koleksi_* ./Foto.log "./$filename/"
 echo "Berhasil"
 ```
 
-![soal3b](\Foto\bash\soal3b.png)
-
 Pada kasus ini dibuat 2 file berupa `soal3b.sh` dan `cron2b.tab`. File `soal3b.sh` berisi bash dari `soal3a.sh`.File ini juga membuat directory dengan
 nama `filename=$(date +"%m-%d-%Y")` lalu seluruh data dengan nama `Koleksi_*` dan `Foto.log` di move `mv` pada directory tersebut.
 
 ```bash
 0 20 1-31/7,2-31/4 * * cd /home/azhar416/soal-shift-sisop-modul-1-F01-2021/soal3 && bash soal3b.sh
 ```
-
-![cron3b](\Foto\bash\crontab3b.png)
 
 Pada file `cron3b.tab` berisi crontab format mengenai penjadwalan yang di inginkan. Pada kasus ini didapatkan `0 20 1-31/7,2-31/4 * * ` yang memiliki
 jadwal dari tanggal 1 tujuh hari sekali (1,8,...), serta dari tanggal 2 empat hari sekali(2,6,...).
@@ -393,8 +388,6 @@ if [[ $n_kucing -eq $n_kelinci ]] ;
 fi
 ```
 
-![soal3c](\Foto\bash\soal3c.png)
-
 Pada kasus ini menggunakan kondisi `if-else` dimana menggunakan suatu variabel bernama:
 ``` bash
 n_kucing=$(ls | grep -e "Kucing.*" | wc -l)
@@ -416,8 +409,6 @@ rm -r Kucing_*
 rm -r Kelinci_*
 ```
 
-![soal3d](\Foto\bash\soal3d.png)
-
 “Koleksi.zip” dan mengunci zip tersebut dengan password berupa tanggal saat ini dengan format "MMDDYYYY" (contoh : “03032003”).
 
 Pada kasus ini semua folder `./Kelinci_*` dan `./Kucing_*` akan dimasukan pada zip. Setelah dibuat zip maka folder tersebut akan dihapus. 
@@ -433,8 +424,6 @@ Pada kasus ini semua folder `./Kelinci_*` dan `./Kucing_*` akan dimasukan pada z
 #unzip
 0 18 * * 1-5 cd /home/azhar416/soal-shift-sisop-modul-1-F01-2021/soal3/ && unzip -P $(date +"\%m\%d\%Y") "Koleksi.zip" && rm "Koleksi.zip"
 ```
-
-![cron3e](\Foto\bash\crontab3e.png)
 
 untuk membuat koleksinya ter-zip saat kuliah saja, selain dari waktu yang disebutkan, ia ingin koleksinya ter-unzip dan tidak ada file zip sama sekali.
 
